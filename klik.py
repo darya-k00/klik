@@ -53,7 +53,6 @@ def is_shorten_link(url):
 if __name__ == "__main__":
     load_dotenv()
     token=os.environ.get('TOKEN')
-    token = 'c5c6f550c5c6f550c5c6f55018c6ecc96ccc5c6c5c6f550a27342508925cf6bbc4cf08c'  
     original_url = input("Введите ссылку, которую хотите сократить: ")
     
     try:
