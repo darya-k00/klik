@@ -50,10 +50,11 @@ def main():
     original_url = input("Введите ссылку, которую хотите сократить: ")
 
     if is_shorten_link(original_url):
+        short_link_key = urlparse(original_url).path.split('/')[-1]
         clicks = get_click_stats(token, shorten_link)
         print('Количество кликов по ссылке :', clicks)
     else:
-        shortened_link = shorten_link(token, original_url)
+        shortened_link, short_link_key = shorten_link(token, original_url)
         print('Сокращенная ссылка:', shortened_link)
 
 
