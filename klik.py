@@ -1,5 +1,6 @@
 import os
 import requests
+import re
 from urllib.parse import urlparse
 from dotenv import load_dotenv
 
@@ -18,13 +19,13 @@ def shorten_link(token, original_url):
     response_data = response.json()
     short_url = response_data.get('response', {}).get('short_url')
     short_link_key = urlparse(short_url).path.split('/')[-1]
-    return short_url, short_link_key
+    return short_url
 
 
 def get_click_stats(token, short_link_key, interval='forever', intervals_count=1, extended=0):
     api_url = 'https://api.vk.com/method/utils.getLinkStats'
     params = {
-        'v': '5.131',
+        'v': '5.199',
         'key': short_link_key,
         'access_token': token,
         'interval': interval,
@@ -39,27 +40,23 @@ def get_click_stats(token, short_link_key, interval='forever', intervals_count=1
 
 
 def is_shorten_link(original_url):
-    parsed_url = urlparse(original_url)
-    if parsed_url.netloc in SHORTENED_LINK_DOMAINS:
-        return True
-    else:
-        return False
+    pattern = r'https?://vk.cc/[a-zA-Z0-9]+'
+    return bool(re.match(pattern, original_url))
 
 
 def main():
+    load_dotenv()
+    token = os.environ['VK_TOKEN']   
     original_url = input("Введите ссылку, которую хотите сократить: ")
 
     if is_shorten_link(original_url):
-        short_link_key = urlparse(original_url).path.split('/')[-1]
+        short_link_key = is_shorten_link(original_url)
         clicks = get_click_stats(token, shorten_link)
         print('Количество кликов по ссылке :', clicks)
     else:
-        shortened_link, short_link_key = shorten_link(token, original_url)
+        shortened_link = shorten_link(token, original_url)
         print('Сокращенная ссылка:', shortened_link)
 
 
 if __name__ == "__main__":
-    load_dotenv()
-    token = os.environ['VK_TOKEN']
     main()
-    
