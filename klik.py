@@ -1,6 +1,5 @@
 import os
 import requests
-import re
 from urllib.parse import urlparse
 from dotenv import load_dotenv
 
@@ -40,8 +39,22 @@ def get_click_stats(token, short_link_key, interval='forever', intervals_count=1
 
 
 def is_shorten_link(original_url):
-    pattern = r'https?://vk.cc/[a-zA-Z0-9]+'
-    return bool(re.match(pattern, original_url))
+    parsed_url = urlparse(original_url)
+    if parsed_url.netloc == 'vk.cc':
+        return True
+    response = requests.get(
+        'https://api.vk.com/method/utils.resolveScreenName',
+        params={
+            'screen_name': original_url.split('/')[-1], 
+            'access_token': token,
+            'v': 5.199
+        }
+    )
+    data = response.json()
+    if 'response' in data and data['response']:
+        return True
+   
+    return False
 
 
 def main():
