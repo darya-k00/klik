@@ -3,8 +3,6 @@ import requests
 from urllib.parse import urlparse
 from dotenv import load_dotenv
 
-SHORTENED_LINK_DOMAINS = ['vk.cc']
-
 
 def shorten_link(token, original_url):
     api_url = 'https://api.vk.com/method/utils.getShortLink'
