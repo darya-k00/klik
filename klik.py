@@ -38,8 +38,6 @@ def get_click_stats(token, short_link_key, interval='forever', intervals_count=1
 
 def is_shorten_link(original_url):
     parsed_url = urlparse(original_url)
-    if parsed_url.netloc == 'vk.cc':
-        return True
     response = requests.get(
         'https://api.vk.com/method/utils.resolveScreenName',
         params={
@@ -48,11 +46,8 @@ def is_shorten_link(original_url):
             'v': 5.199
         }
     )
-    data = response.json()
-    if 'response' in data and data['response']:
-        return True
-   
-    return False
+    response_data = response.json()
+    return bool(response_data.get('response'))
 
 
 def main():
