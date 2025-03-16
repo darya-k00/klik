@@ -2,6 +2,7 @@ import os
 import requests
 from urllib.parse import urlparse
 from dotenv import load_dotenv
+import argparse
 
 
 def shorten_link(token, original_url):
@@ -43,21 +44,20 @@ def is_shorten_link(original_url):
         params={
             'screen_name': original_url.split('/')[-1], 
             'access_token': token,
-            'v': 5.199
+            'v': '5.199'
         }
     )
     response_data = response.json()
     return bool(response_data.get('response'))
 
-
-def main():
+    
+def main(original_url):
     load_dotenv()
     token = os.environ['VK_TOKEN']   
-    original_url = input("Введите ссылку, которую хотите сократить: ")
 
-    if is_shorten_link(original_url):
+    if is_shorten_link(original_url, token):
         short_link_key = is_shorten_link(original_url)
-        clicks = get_click_stats(token, shorten_link)
+        clicks = get_click_stats(token, short_link_key)
         print('Количество кликов по ссылке :', clicks)
     else:
         shortened_link = shorten_link(token, original_url)
@@ -65,4 +65,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='Сокращение ссылок с помощью VK API.')
+    parser.add_argument('url', type=str, help='Ссылка для сокращения.')
+    
+    args = parser.parse_args()
+    main(args.url)
