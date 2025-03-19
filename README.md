@@ -18,21 +18,32 @@
 
 Python3 должен быть уже установлен. Затем используйте pip (или pip3, есть конфликт с Python2) для установки зависимостей:
 
-```pip install -r requirements.txt```
+```
+pip install -r requirements.txt
+```
 
 ## Как пользоваться
 Запуск программы 
-``` cd_путь к директории с файлами проекта_```.
+```
+cd_путь к директории с файлами проекта_
+```
 
-```python main.py URL```
+```
+python main.py URL
+```
 
 ### Пример 
 
-```python main.py https://youtu.be/dQw4w9WgXcQ?si=RIyQYg54bjmtJPOS```
+```
+python main.py https://youtu.be/dQw4w9WgXcQ?si=RIyQYg54bjmtJPOS
+```
 
+```
+Сокращенная ссылка: https://vk.cc/cDWVsZ
+```
 
-```Сокращенная ссылка: https://vk.cc/cDWVsZ```
-
-``` Количество кликов по ссылке: 12 ```
+``` 
+Количество кликов по ссылке: 12
+ ```
 ### Цель проекта
 Код написан в образовательных целях на онлайн-курсе для веб-разработчиков
