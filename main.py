@@ -53,8 +53,14 @@ def is_shorten_link(original_url):
     
 def main(original_url):
     load_dotenv()
-    token = os.environ['VK_TOKEN']   
-
+    token = os.environ['VK_TOKEN']
+    
+    parser = argparse.ArgumentParser(description='Сокращение ссылок с помощью VK API.')
+    parser.add_argument('url', type=str, help='Ссылка для сокращения.')
+    
+    args = parser.parse_args()
+    original_url = args.url
+    
     if is_shorten_link(original_url, token):
         short_link_key = is_shorten_link(original_url)
         clicks = get_click_stats(token, short_link_key)
@@ -65,8 +71,4 @@ def main(original_url):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Сокращение ссылок с помощью VK API.')
-    parser.add_argument('url', type=str, help='Ссылка для сокращения.')
-    
-    args = parser.parse_args()
-    main(args.url)
+    main()
